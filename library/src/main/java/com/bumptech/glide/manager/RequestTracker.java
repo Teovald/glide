@@ -1,10 +1,12 @@
 package com.bumptech.glide.manager;
 
+import android.os.Build;
+
 import com.bumptech.glide.request.Request;
 import com.bumptech.glide.util.Util;
+import com.bumptech.glide.util.backport.Collections;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.WeakHashMap;
@@ -19,7 +21,7 @@ public class RequestTracker {
     // this context for view targets. Despite the side affects, WeakReferences are still essentially required. A user
     // can always make repeated requests into targets other than views, or use an activity manager in a fragment pager
     // where holding strong references would steadily leak bitmaps and/or views.
-    private final Set<Request> requests = Collections.newSetFromMap(new WeakHashMap<Request, Boolean>());
+    private final Set<Request> requests;
     // A set of requests that have not completed and are queued to be run again. We use this list to maintain hard
     // references to these requests to ensure that they are not garbage collected before they start running or
     // while they are paused. See #346.
@@ -27,6 +29,14 @@ public class RequestTracker {
     private final List<Request> pendingRequests = new ArrayList<Request>();
 
     private boolean isPaused;
+
+    public RequestTracker() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            requests = java.util.Collections.newSetFromMap(new WeakHashMap<Request, Boolean>());
+        } else {
+            requests = Collections.newSetFromMap(new WeakHashMap<Request, Boolean>());
+        }
+    }
 
     /**
      * Starts tracking the given request.

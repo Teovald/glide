@@ -1,8 +1,10 @@
 package com.bumptech.glide.manager;
 
-import com.bumptech.glide.util.Util;
+import android.os.Build;
 
-import java.util.Collections;
+import com.bumptech.glide.util.Util;
+import com.bumptech.glide.util.backport.Collections;
+
 import java.util.Set;
 import java.util.WeakHashMap;
 
@@ -11,10 +13,17 @@ import java.util.WeakHashMap;
  * {@link android.app.Fragment} and {@link android.app.Activity} lifecycle events.
  */
 class ActivityFragmentLifecycle implements Lifecycle {
-    private final Set<LifecycleListener> lifecycleListeners =
-            Collections.newSetFromMap(new WeakHashMap<LifecycleListener, Boolean>());
+    private final Set<LifecycleListener> lifecycleListeners;
     private boolean isStarted;
     private boolean isDestroyed;
+
+    ActivityFragmentLifecycle() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            lifecycleListeners = java.util.Collections.newSetFromMap(new WeakHashMap<LifecycleListener, Boolean>());
+        } else {
+            lifecycleListeners = Collections.newSetFromMap(new WeakHashMap<LifecycleListener, Boolean>());
+        }
+    }
 
     /**
      * Adds the given listener to the list of listeners to be notified on each lifecycle event.

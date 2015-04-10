@@ -6,8 +6,8 @@ import android.os.Build;
 import android.os.Looper;
 
 import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.util.backport.ArrayDeque;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -163,7 +163,11 @@ public final class Util {
      * Returns a {@link java.util.Queue} of the given size using Glide's preferred implementation.
      */
     public static <T> Queue<T> createQueue(int size) {
-        return new ArrayDeque<T>(size);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            return new java.util.ArrayDeque<T>(size);
+        } else {
+            return new ArrayDeque<T>(size);
+        }
     }
 
     /**

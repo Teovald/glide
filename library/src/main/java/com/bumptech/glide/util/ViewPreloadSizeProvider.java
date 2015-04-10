@@ -1,13 +1,13 @@
 package com.bumptech.glide.util;
 
+import android.os.Build;
 import android.view.View;
 
 import com.bumptech.glide.ListPreloader;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.ViewTarget;
-
-import java.util.Arrays;
+import com.bumptech.glide.util.backport.Arrays;
 
 /**
  * A {@link com.bumptech.glide.ListPreloader.PreloadSizeProvider} that will extract the preload size from a given
@@ -45,7 +45,11 @@ public class ViewPreloadSizeProvider<T> implements ListPreloader.PreloadSizeProv
         if (size == null) {
             return null;
         } else {
-            return Arrays.copyOf(this.size, this.size.length);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                return java.util.Arrays.copyOf(this.size, this.size.length);
+            } else {
+                return Arrays.copyOf(this.size, this.size.length);
+            }
         }
     }
 

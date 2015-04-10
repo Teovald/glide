@@ -13,6 +13,8 @@ import java.io.IOException;
  * An {@link com.bumptech.glide.load.resource.bitmap.BitmapDecoder} that can decode a thumbnail frame
  * {@link Bitmap} from a {@link android.os.ParcelFileDescriptor} containing a video.
  *
+ * WARNING : since this class uses some API 10 methods, it will crash if used. Luckily,
+ * we don't care about video handling right now.
  * @see android.media.MediaMetadataRetriever
  */
 public class VideoBitmapDecoder implements BitmapDecoder<ParcelFileDescriptor> {
@@ -42,6 +44,7 @@ public class VideoBitmapDecoder implements BitmapDecoder<ParcelFileDescriptor> {
     public Bitmap decode(ParcelFileDescriptor resource, BitmapPool bitmapPool, int outWidth, int outHeight,
             DecodeFormat decodeFormat)
             throws IOException {
+        /*
         MediaMetadataRetriever mediaMetadataRetriever = factory.build();
         mediaMetadataRetriever.setDataSource(resource.getFileDescriptor());
         Bitmap result;
@@ -52,7 +55,8 @@ public class VideoBitmapDecoder implements BitmapDecoder<ParcelFileDescriptor> {
         }
         mediaMetadataRetriever.release();
         resource.close();
-        return result;
+        return result;*/
+        return null;
     }
 
     @Override
@@ -63,7 +67,8 @@ public class VideoBitmapDecoder implements BitmapDecoder<ParcelFileDescriptor> {
     // Visible for testing.
     static class MediaMetadataRetrieverFactory {
         public MediaMetadataRetriever build() {
-            return new MediaMetadataRetriever();
+            //return new MediaMetadataRetriever();
+            return null;
         }
     }
 
