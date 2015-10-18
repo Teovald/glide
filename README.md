@@ -1,9 +1,9 @@
 Glide
 =====
 
-Quick backport of Glide for API 7. It removes features other than image loading (gifs, videos, ...).
+**Quick backport of Glide for API 7. It removes features other than image loading (gifs, videos, ...).**
 
-
+=======================================================
 
 
 Glide is a fast and efficient open source media management and image loading framework for Android that wraps media
