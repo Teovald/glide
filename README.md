@@ -1,7 +1,10 @@
 Glide
 =====
 
-[![Build Status](https://travis-ci.org/bumptech/glide.svg?branch=master)](https://travis-ci.org/bumptech/glide)
+Quick backport of Glide for API 7. It removes features other than image loading (gifs, videos, ...).
+
+
+
 
 Glide is a fast and efficient open source media management and image loading framework for Android that wraps media
 decoding, memory and disk caching, and resource pooling into a simple and easy to use interface.
